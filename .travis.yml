@@ -7,3 +7,16 @@ before_install:
 
 script:
     - docker run -e CI=true jialiw/docker-react-test npm run test -- --coverage
+
+deploy:
+    provider: elasticbeanstalk
+    region: "us-east-2"
+    app: "docker-react-test"
+    env: "DockerReactTest-env" #find in beanstalk dashboard 
+    bucket_name: "elasticbeanstalk-us-east-2-824788361652" #find from S3 
+    bucket_path: "docker-react-test"
+    on:
+        branch: master #tell travis only gets updated if master branch gets updated
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key:
+        secure: "$AWS_SECRET_KEY"
